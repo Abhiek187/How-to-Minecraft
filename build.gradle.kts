@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
     idea
     id("net.neoforged.moddev") version "2.0.105"
-    id("org.jetbrains.kotlin.jvm") version "2.0.0"
+    kotlin("jvm") version "2.1.21"
 }
 
 val minecraftVersion: String by project
@@ -134,7 +134,8 @@ sourceSets {
 }
 
 dependencies {
-    implementation("thedarkcolour:kotlinforforge-neoforge:5.3.0")
+    // Dependency chart: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs/edit?usp=sharing
+    implementation("thedarkcolour:kotlinforforge-neoforge:5.9.0")
 
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

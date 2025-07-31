@@ -1,15 +1,16 @@
 package org.abhiek.how_to_minecraft
 
-import org.abhiek.how_to_minecraft.block.ModBlocks
 import net.minecraft.client.Minecraft
 import net.neoforged.bus.api.SubscribeEvent
-//import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.fml.LogicalSide
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import thedarkcolour.kotlinforforge.neoforge.forge.DIST
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
@@ -17,9 +18,10 @@ import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
  * Main mod class.
  *
  * An example for blocks is in the `blocks` package of this mod.
+ *
+ * Runs on both the physical client and server.
  */
 @Mod(HowToMinecraft.ID)
-//@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object HowToMinecraft {
     const val ID = "how_to_minecraft"
 
@@ -30,9 +32,9 @@ object HowToMinecraft {
         LOGGER.info("Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
-        ModBlocks.REGISTRY.register(MOD_BUS)
+        ModBlocks.BLOCKS.register(MOD_BUS)
 
-        val obj = runForDist(clientTarget = {
+        runForDist(clientTarget = {
             MOD_BUS.addListener(::onClientSetup)
             Minecraft.getInstance()
         }, serverTarget = {
@@ -41,7 +43,28 @@ object HowToMinecraft {
         })
         MOD_BUS.addListener(::onCommonSetup)
 
-        println(obj)
+        // Every block in Minecraft
+//        for (entry in BuiltInRegistries.BLOCK.entrySet()) {
+//            println("Block key: ${entry.key}, value: ${entry.value}")
+//        }
+
+        /**
+         * Physical client: Minecraft frontend
+         * Physical server: JAR file (dedicated server)
+         * Logical client: game display
+         * Logical server: game logic
+         *
+         * Multiplayer: all players (clients) connect to a server
+         * Single player: the physical client spins up a logical client & server (no dedicated server)
+         *
+         * Level#isClientSide(): true if running on logical client
+         */
+        val isPhysicalClient = DIST.isClient // or FMLEnvironment.dist == Dist.CLIENT
+        val isPhysicalServer = DIST.isDedicatedServer // or FMLEnvironment.dist == Dist.DEDICATED_SERVER
+        val logicalClient = LogicalSide.CLIENT
+        val logicalServer = LogicalSide.SERVER
+        println("is physical client? $isPhysicalClient")
+        println("is physical server? $isPhysicalServer")
     }
 
     /**
@@ -50,18 +73,33 @@ object HowToMinecraft {
      * Fired on the mod specific event bus.
      */
     private fun onClientSetup(event: FMLClientSetupEvent) {
-        LOGGER.info("Initializing client...")
+        val container = event.container
+        val modId = container.modId
+        val modInfo = container.modInfo
+        val eventBus = container.eventBus
+        val namespace = container.namespace
+        LOGGER.info("Initializing client..., modId: $modId, modInfo: $modInfo, eventBus: $eventBus, namespace: $namespace")
     }
 
     /**
      * Fired on the global Forge bus.
      */
     private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
-        LOGGER.info("Server starting...")
+        val container = event.container
+        val modId = container.modId
+        val modInfo = container.modInfo
+        val eventBus = container.eventBus
+        val namespace = container.namespace
+        LOGGER.info("Server starting..., modId: $modId, modInfo: $modInfo, eventBus: $eventBus, namespace: $namespace")
     }
 
     @SubscribeEvent
     fun onCommonSetup(event: FMLCommonSetupEvent) {
-        LOGGER.info("Hello! This is working!")
+        val container = event.container
+        val modId = container.modId
+        val modInfo = container.modInfo
+        val eventBus = container.eventBus
+        val namespace = container.namespace
+        LOGGER.info("Hello! This is working! modId: $modId, modInfo: $modInfo, eventBus: $eventBus, namespace: $namespace")
     }
 }
