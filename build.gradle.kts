@@ -4,6 +4,7 @@ plugins {
     idea
     id("net.neoforged.moddev") version "2.0.105"
     kotlin("jvm") version "2.1.21"
+    id("com.github.ben-manes.versions") version "0.52.0"
 }
 
 val minecraftVersion: String by project
