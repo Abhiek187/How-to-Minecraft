@@ -32,6 +32,7 @@ object HowToMinecraft {
         LOGGER.info("Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
+        // EVENT_BUS = game bus
         ModBlocks.BLOCKS.register(MOD_BUS)
 
         runForDist(clientTarget = {
@@ -41,7 +42,7 @@ object HowToMinecraft {
             MOD_BUS.addListener(::onServerSetup)
             "test"
         })
-        MOD_BUS.addListener(::onCommonSetup)
+        MOD_BUS.addListener(::onCommonSetup) // default event priority
 
         // Every block in Minecraft
 //        for (entry in BuiltInRegistries.BLOCK.entrySet()) {

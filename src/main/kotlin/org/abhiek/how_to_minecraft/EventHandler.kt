@@ -1,5 +1,6 @@
 package org.abhiek.how_to_minecraft
 
+import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
@@ -8,7 +9,7 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 @EventBusSubscriber(modid = HowToMinecraft.ID)
 object EventHandler {
     // Heals an entity by half a heart every time they jump.
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     private fun onLivingJump(event: LivingJumpEvent) {
         val entity = event.entity
         println("event entity: $entity")
