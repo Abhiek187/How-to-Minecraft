@@ -2,7 +2,6 @@ package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
 import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.LogicalSide
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
@@ -62,8 +61,8 @@ object HowToMinecraft {
          */
         val isPhysicalClient = DIST.isClient // or FMLEnvironment.dist == Dist.CLIENT
         val isPhysicalServer = DIST.isDedicatedServer // or FMLEnvironment.dist == Dist.DEDICATED_SERVER
-        val logicalClient = LogicalSide.CLIENT
-        val logicalServer = LogicalSide.SERVER
+//        val logicalClient = LogicalSide.CLIENT
+//        val logicalServer = LogicalSide.SERVER
         println("is physical client? $isPhysicalClient")
         println("is physical server? $isPhysicalServer")
     }

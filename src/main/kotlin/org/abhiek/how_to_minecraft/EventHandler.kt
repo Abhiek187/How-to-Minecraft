@@ -4,6 +4,7 @@ import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
+import org.abhiek.how_to_minecraft.block.ModBlocks
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
@@ -18,6 +19,9 @@ object EventHandler {
         // Only heal on the server side
         if (!entity.level().isClientSide) {
             entity.heal(1f)
+            println("Is example block? ${
+                entity.level().getBlockState(entity.blockPosition()) == ModBlocks.EXAMPLE_BLOCK
+            }")
         }
     }
 }
