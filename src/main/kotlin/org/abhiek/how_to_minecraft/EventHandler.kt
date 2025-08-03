@@ -1,9 +1,11 @@
 package org.abhiek.how_to_minecraft
 
+import net.minecraft.client.Minecraft
 import net.minecraft.world.item.CreativeModeTabs
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
@@ -39,5 +41,21 @@ object EventHandler {
             // Accepts an ItemLike. This assumes that MY_BLOCK has a corresponding item.
             event.accept(ModBlocks.EXAMPLE_BLOCK)
         }
+    }
+
+    @SubscribeEvent
+    fun onClick(event: InputEvent.InteractionKeyMappingTriggered) {
+        println("Click event!")
+        val minecraft = Minecraft.getInstance()
+
+        println("Hit result Type: ${minecraft.hitResult?.type}, Location: ${minecraft.hitResult?.location}")
+        println("Hand: ${event.hand}")
+        println("Is left click? ${event.isAttack}")
+        println("Is middle click? ${event.isPickBlock}")
+        println("Is right click? ${event.isUseItem}")
+        println("Is canceled? ${event.isCanceled}")
+        println("Key mapping Key: ${event.keyMapping.key}, Name: ${event.keyMapping.name}, Category: ${
+            event.keyMapping.category
+        }")
     }
 }
