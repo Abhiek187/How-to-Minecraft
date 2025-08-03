@@ -1,9 +1,6 @@
 package org.abhiek.how_to_minecraft.block
 
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.neoforged.neoforge.registries.DeferredRegister
 import org.abhiek.how_to_minecraft.HowToMinecraft

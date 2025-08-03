@@ -19,9 +19,11 @@ object EventHandler {
         // Only heal on the server side
         if (!entity.level().isClientSide) {
             entity.heal(1f)
-            println("Is example block? ${
-                entity.level().getBlockState(entity.blockPosition()) == ModBlocks.EXAMPLE_BLOCK
+            println("Entity block position: ${entity.blockPosition()}")
+            println("Example block state: ${
+                entity.level().getBlockState(entity.blockPosition())
             }")
+            println("Example block default state: ${ModBlocks.EXAMPLE_BLOCK.defaultBlockState()}")
         }
     }
 }
