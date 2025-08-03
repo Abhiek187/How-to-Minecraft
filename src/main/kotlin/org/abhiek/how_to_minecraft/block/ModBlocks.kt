@@ -2,10 +2,9 @@ package org.abhiek.how_to_minecraft.block
 
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import org.abhiek.how_to_minecraft.HowToMinecraft
-// THIS LINE IS REQUIRED FOR USING PROPERTY DELEGATES
-import thedarkcolour.kotlinforforge.neoforge.forge.getValue
 
 object ModBlocks {
     val BLOCKS: DeferredRegister.Blocks =
@@ -36,11 +35,15 @@ object ModBlocks {
 //                .sound(SoundType.GRAVEL)
 //                // 0-15, glowstone = 15, torch = 14
 //                .lightLevel { state -> 7 }
+//                // Default: 0.6, ice = 0.98 (the opposite of how friction works IRL)
+//                .friction(0.6f)
 //        )
 //    }
     // Alternatively:
-    val EXAMPLE_BLOCK: Block by BLOCKS.registerSimpleBlock(
+    // = --> DeferredBlock<Block>, by --> Block
+    val EXAMPLE_BLOCK: DeferredBlock<Block> = BLOCKS.registerSimpleBlock(
         "example_block",
+        // ::Block by default
         BlockBehaviour.Properties.of()
             // setId called automatically
             .lightLevel { 15 }

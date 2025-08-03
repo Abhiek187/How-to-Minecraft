@@ -1,10 +1,13 @@
 package org.abhiek.how_to_minecraft
 
+import net.minecraft.world.item.CreativeModeTabs
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
+import org.abhiek.how_to_minecraft.item.ModItems
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
@@ -23,7 +26,18 @@ object EventHandler {
             println("Example block state: ${
                 entity.level().getBlockState(entity.blockPosition())
             }")
-            println("Example block default state: ${ModBlocks.EXAMPLE_BLOCK.defaultBlockState()}")
+            // .get() is required since EXAMPLE_BLOCK is deferred
+            println("Example block default state: ${ModBlocks.EXAMPLE_BLOCK.get().defaultBlockState()}")
+        }
+    }
+
+    @SubscribeEvent
+    fun buildContents(event: BuildCreativeModeTabContentsEvent) {
+        // Add items to the creative menu
+        if (event.tabKey == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.EXAMPLE_ITEM)
+            // Accepts an ItemLike. This assumes that MY_BLOCK has a corresponding item.
+            event.accept(ModBlocks.EXAMPLE_BLOCK)
         }
     }
 }

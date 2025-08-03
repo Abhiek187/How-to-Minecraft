@@ -7,6 +7,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
+import org.abhiek.how_to_minecraft.item.ModItems
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.neoforge.forge.DIST
@@ -33,6 +34,7 @@ object HowToMinecraft {
         // Register the KDeferredRegister to the mod-specific event bus
         // EVENT_BUS = game bus
         ModBlocks.BLOCKS.register(MOD_BUS)
+        ModItems.ITEMS.register(MOD_BUS)
 
         runForDist(clientTarget = {
             MOD_BUS.addListener(::onClientSetup)
