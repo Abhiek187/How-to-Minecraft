@@ -7,6 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.item.ModItems
@@ -14,6 +15,16 @@ import org.abhiek.how_to_minecraft.item.ModItems
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
 object EventHandler {
+    /*
+    Events:
+    - https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.21.x-neoforge/net/neoforged/neoforge/event/package-summary.html
+    - Client side: https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.21.x-neoforge/net/neoforged/neoforge/client/event/package-summary.html
+     */
+    @SubscribeEvent
+    private fun onLoad(event: EntityJoinLevelEvent) {
+        debugMenu(HowToMinecraft.LOGGER, event.entity)
+    }
+
     // Heals an entity by half a heart every time they jump.
     @SubscribeEvent(priority = EventPriority.HIGH)
     private fun onLivingJump(event: LivingJumpEvent) {
@@ -31,6 +42,8 @@ object EventHandler {
             // .get() is required since EXAMPLE_BLOCK is deferred
             println("Example block default state: ${ModBlocks.EXAMPLE_BLOCK.get().defaultBlockState()}")
         }
+
+        debugMenu(HowToMinecraft.LOGGER, entity)
     }
 
     @SubscribeEvent
