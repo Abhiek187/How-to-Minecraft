@@ -50,9 +50,10 @@ object EventHandler {
     fun buildContents(event: BuildCreativeModeTabContentsEvent) {
         // Add items to the creative menu
         if (event.tabKey == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModItems.EXAMPLE_ITEM)
-            // Accepts an ItemLike. This assumes that MY_BLOCK has a corresponding item.
             event.accept(ModBlocks.EXAMPLE_BLOCK)
+            event.accept(ModItems.EXAMPLE_ITEM)
+            event.accept(ModItems.CONSUMABLE)
+            event.accept(ModItems.FOOD)
         }
     }
 
