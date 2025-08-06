@@ -54,6 +54,9 @@ object EventHandler {
             event.accept(ModItems.EXAMPLE_ITEM)
             event.accept(ModItems.CONSUMABLE)
             event.accept(ModItems.FOOD)
+            event.accept(ModItems.COPPER_SWORD)
+            event.accept(ModItems.COPPER_HELMET)
+            event.accept(ModItems.EQUIPPABLE)
         }
     }
 

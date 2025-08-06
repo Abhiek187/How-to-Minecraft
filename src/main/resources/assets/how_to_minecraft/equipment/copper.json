@@ -1,0 +1,38 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "how_to_minecraft:copper/outer"
+      },
+      {
+        "texture": "how_to_minecraft:copper/outer_overlay",
+        "dyeable": {
+          "color_when_undyed": 7767006
+        }
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "how_to_minecraft:copper/inner"
+      },
+      {
+        "texture": "how_to_minecraft:copper/inner_overlay",
+        "dyeable": {
+          "color_when_undyed": 7767006
+        }
+      }
+    ],
+    "wolf_body": [
+      {
+        "texture": "how_to_minecraft:copper/wolf",
+        "use_player_texture": true
+      }
+    ],
+    "horse_body": [
+      {
+        "texture": "how_to_minecraft:copper/horse",
+        "use_player_texture": true
+      }
+    ]
+  }
+}
