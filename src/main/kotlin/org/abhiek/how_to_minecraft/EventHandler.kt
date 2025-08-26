@@ -1,14 +1,15 @@
 package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.CreativeModeTabs
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
+import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.item.ModItems
 
@@ -21,7 +22,7 @@ object EventHandler {
     - Client side: https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.21.x-neoforge/net/neoforged/neoforge/client/event/package-summary.html
      */
     @SubscribeEvent
-    private fun onLoad(event: EntityJoinLevelEvent) {
+    private fun onLoad(event: PlayerEvent.PlayerLoggedInEvent) {
         debugMenu(HowToMinecraft.LOGGER, event.entity)
     }
 
@@ -43,7 +44,9 @@ object EventHandler {
             println("Example block default state: ${ModBlocks.EXAMPLE_BLOCK.get().defaultBlockState()}")
         }
 
-        debugMenu(HowToMinecraft.LOGGER, entity)
+        if (entity is Player) {
+            debugMenu(HowToMinecraft.LOGGER, entity)
+        }
     }
 
     @SubscribeEvent

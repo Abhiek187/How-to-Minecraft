@@ -2,7 +2,7 @@ package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.LightLayer
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
@@ -15,22 +15,22 @@ import kotlin.math.max
 /**
  * Log similar information shown in the debug (F3) screen
  */
-fun debugMenu(logger: Logger, entity: Entity) {
+fun debugMenu(logger: Logger, player: Player) {
     logger.debug("===F3 Menu===")
-    val level = entity.level()
-    val blockPosition = entity.blockPosition()
+    val level = player.level()
+    val blockPosition = player.blockPosition()
 
     // Left side
     val minecraftVersion = FMLLoader.versionInfo().mcVersion
     val isPhysicalClient = DIST.isClient
     val dimension = level.dimension().location()
 
-    val currentPosition = entity.position()
-    val compassDirection = entity.direction.serializedName
-    val coordinateDirection = entity.direction.axisDirection
-    val coordinateAxis = entity.direction.axis.name
-    val yaw = round(entity.rotationVector.x, places = 1)
-    val pitch = round(entity.rotationVector.y, places = 1)
+    val currentPosition = player.position()
+    val compassDirection = player.direction.serializedName
+    val coordinateDirection = player.direction.axisDirection
+    val coordinateAxis = player.direction.axis.name
+    val yaw = round(player.rotationVector.x, places = 1)
+    val pitch = round(player.rotationVector.y, places = 1)
     val skyLight = level.getBrightness(LightLayer.SKY, blockPosition)
     val blockLight = level.getBrightness(LightLayer.BLOCK, blockPosition)
     val biome = level.getBiome(blockPosition).key?.location()
