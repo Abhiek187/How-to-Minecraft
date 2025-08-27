@@ -1,16 +1,34 @@
 package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.entity.player.PlayerRenderer
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.context.ContextKey
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.CreativeModeTabs
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.neoforged.neoforge.client.event.InputEvent
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
+import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
+import org.abhiek.how_to_minecraft.entity.ModEntities.MY_MOB
+import org.abhiek.how_to_minecraft.entity.MyMobModel
+import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
+import org.abhiek.how_to_minecraft.entity.MyMobRenderer
+import org.abhiek.how_to_minecraft.entity.MyRenderLayer
 import org.abhiek.how_to_minecraft.item.ModItems
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
@@ -52,14 +70,19 @@ object EventHandler {
     @SubscribeEvent
     fun buildContents(event: BuildCreativeModeTabContentsEvent) {
         // Add items to the creative menu
-        if (event.tabKey == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModBlocks.EXAMPLE_BLOCK)
-            event.accept(ModItems.EXAMPLE_ITEM)
-            event.accept(ModItems.CONSUMABLE)
-            event.accept(ModItems.FOOD)
-            event.accept(ModItems.COPPER_SWORD)
-            event.accept(ModItems.COPPER_HELMET)
-            event.accept(ModItems.EQUIPPABLE)
+        when (event.tabKey) {
+            CreativeModeTabs.INGREDIENTS -> {
+                event.accept(ModBlocks.EXAMPLE_BLOCK)
+                event.accept(ModItems.EXAMPLE_ITEM)
+                event.accept(ModItems.CONSUMABLE)
+                event.accept(ModItems.FOOD)
+                event.accept(ModItems.COPPER_SWORD)
+                event.accept(ModItems.COPPER_HELMET)
+                event.accept(ModItems.EQUIPPABLE)
+            }
+            CreativeModeTabs.SPAWN_EGGS -> {
+                event.accept(ModItems.MY_ENTITY_SPAWN_EGG)
+            }
         }
     }
 
@@ -77,5 +100,108 @@ object EventHandler {
         println("Key mapping Key: ${event.keyMapping.key}, Name: ${event.keyMapping.name}, Category: ${
             event.keyMapping.category
         }")
+    }
+
+    @SubscribeEvent
+    fun decreaseArmor(event: LivingIncomingDamageEvent) {
+        // We only apply this decrease to players and leave zombies etc. unchanged
+        if (event.entity is Player) {
+            // Add our reduction modifier callback
+            event.container.addModifier(
+                // The reduction to target. See the DamageContainer.Reduction enum for possible values.
+                DamageContainer.Reduction.ARMOR
+            ) { _, baseReduction ->
+                // The modification to perform. Gets the damage container and the base reduction as inputs,
+                // and outputs the new reduction. Both input and output reductions are floats.
+                baseReduction * 0.5f
+            }
+        }
+    }
+
+    // Default attributes are required for living entities
+    @SubscribeEvent
+    fun createDefaultAttributes(event: EntityAttributeCreationEvent) {
+        event.put(
+            // Your entity type
+            MY_MOB,
+            // An AttributeSupplier. This is typically created by calling LivingEntity#createLivingAttributes,
+            // setting your values on it, and calling #build. You can also create the AttributeSupplier from scratch
+            // if you want, see the source of LivingEntity#createLivingAttributes for an example.
+            // LivingEntity.createLivingAttributes()
+            Mob.createMobAttributes()
+                // Add an attribute with its default value
+                //.add(Attributes.MAX_HEALTH)
+                // Add an attribute with a non-default value
+                .add(Attributes.MAX_HEALTH, 50.0)
+                // Build the AttributeSupplier
+                .build()
+        )
+    }
+
+    @SubscribeEvent // on the mod event bus
+    fun modifyDefaultAttributes(event: EntityAttributeModificationEvent) {
+        // If villagers don't have the armor attribute already, we add it
+        if (!event.has(EntityType.VILLAGER, Attributes.ARMOR)) {
+            event.add(
+                // The EntityType to add the attribute for
+                EntityType.VILLAGER,
+                // The Holder<Attribute> to add to the EntityType. Can also be a custom attribute.
+                Attributes.ARMOR,
+                // The attribute value to add.
+                // Can be omitted, if so, the attribute's default value will be used instead.
+                10.0
+            )
+        }
+    }
+
+    // Renderers are required for living entities
+    @SubscribeEvent
+    fun registerEntityRenderers(event: RegisterRenderers) {
+        event.registerEntityRenderer(MY_MOB, ::MyMobRenderer)
+    }
+
+    @SubscribeEvent
+    fun registerRenderStateModifiers(event: RegisterRenderStateModifiersEvent) {
+        val EXAMPLE_CONTEXT = ContextKey<String>(
+            // The id of your context key. Used for distinguishing between keys internally.
+            ResourceLocation.fromNamespaceAndPath(HowToMinecraft.ID, "example_context")
+        )
+
+//        event.registerEntityModifier(
+//            // A TypeToken for the renderer. It is REQUIRED for this to be instantiated as an anonymous class
+//            // (i.e., with {} at the end) and to have explicit generic parameters, due to generics nonsense.
+//            object: TypeToken<LivingEntityRenderer<LivingEntity, LivingEntityRenderState, *>>() {}
+//        ) { _, state ->
+//            // The modifier itself. This is a BiConsumer of the entity and the entity render state.
+//            // Exact generic types are inferred from the generics in the renderer class used.
+//            state.setRenderData(EXAMPLE_CONTEXT, "Hello World!")
+//        }
+        // Overload of the above method that accepts a Class<?>.
+        // This should ONLY be used for renderers without any generics, such as PlayerRenderer.
+        event.registerEntityModifier(PlayerRenderer::class.java) { _, state ->
+            state.setRenderData(EXAMPLE_CONTEXT, "Hello World!")
+        }
+    }
+
+    @SubscribeEvent
+    fun registerLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
+        // Add our layer here
+        event.registerLayerDefinition(MY_LAYER, MyMobModel::createBodyLayer)
+    }
+
+    @SubscribeEvent
+    fun addLayers(event: EntityRenderersEvent.AddLayers) {
+        // Add a layer to every single entity type.
+        for (entityType in event.entityTypes) {
+            // Get our renderer.
+            val renderer = event.getRenderer(entityType)
+            // We check if our render layer is supported by the renderer.
+            // If you want a more general-purpose render layer, you will need to work with wildcard generics.
+            if (renderer is MyMobRenderer) {
+                // Add the layer to the renderer. Like above, construct a new MyRenderLayer.
+                // The EntityModelSet can be retrieved from the event through #getEntityModels.
+                renderer.addLayer(MyRenderLayer(renderer, event.entityModels))
+            }
+        }
     }
 }

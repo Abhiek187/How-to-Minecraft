@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.Tags
 import net.neoforged.neoforge.registries.DeferredRegister
 import org.abhiek.how_to_minecraft.HowToMinecraft
 import org.abhiek.how_to_minecraft.block.ModBlocks
+import org.abhiek.how_to_minecraft.entity.ModEntities.MY_MOB
 import thedarkcolour.kotlinforforge.neoforge.forge.getValue
 
 object ModItems {
@@ -199,4 +200,13 @@ object ModItems {
                 .build()
         )
     )
+
+    val MY_ENTITY_SPAWN_EGG: SpawnEggItem by ITEMS.registerItem("my_mob_spawn_egg") { properties ->
+        SpawnEggItem(
+            // The entity type to spawn
+            MY_MOB,
+            // The properties passed into the lambda, with any additional setup
+            properties
+        )
+    }
 }

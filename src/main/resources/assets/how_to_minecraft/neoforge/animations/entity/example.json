@@ -1,0 +1,17 @@
+{
+  "length": 1.5,
+  "loop": true,
+  "animations": [
+    {
+      "bone": "head",
+      "target": "minecraft:rotation",
+      "keyframes": [
+        {
+          "timestamp": 0.5,
+          "target": [22.5, 0, 0],
+          "interpolation": "minecraft:linear"
+        }
+      ]
+    }
+  ]
+}

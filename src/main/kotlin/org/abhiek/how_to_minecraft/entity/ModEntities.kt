@@ -76,4 +76,9 @@ object ModEntities {
 //            .eyeHeight(1.5f)
 //            .updateInterval(5)
 //    }
+    val MY_MOB: EntityType<MyMob> by ENTITY_TYPES.registerEntityType(
+        "my_mob",
+        ::MyMob,
+        MobCategory.CREATURE
+    )
 }
