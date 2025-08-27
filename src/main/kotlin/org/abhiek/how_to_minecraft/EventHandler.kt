@@ -71,17 +71,25 @@ object EventHandler {
     fun buildContents(event: BuildCreativeModeTabContentsEvent) {
         // Add items to the creative menu
         when (event.tabKey) {
-            CreativeModeTabs.INGREDIENTS -> {
+            CreativeModeTabs.BUILDING_BLOCKS -> {
                 event.accept(ModBlocks.EXAMPLE_BLOCK)
-                event.accept(ModItems.EXAMPLE_ITEM)
-                event.accept(ModItems.CONSUMABLE)
-                event.accept(ModItems.FOOD)
-                event.accept(ModItems.COPPER_SWORD)
-                event.accept(ModItems.COPPER_HELMET)
+            }
+            CreativeModeTabs.TOOLS_AND_UTILITIES -> {
                 event.accept(ModItems.EQUIPPABLE)
             }
+            CreativeModeTabs.COMBAT -> {
+                event.accept(ModItems.COPPER_SWORD)
+                event.accept(ModItems.COPPER_HELMET)
+            }
+            CreativeModeTabs.FOOD_AND_DRINKS -> {
+                event.accept(ModItems.CONSUMABLE)
+                event.accept(ModItems.FOOD)
+            }
+            CreativeModeTabs.INGREDIENTS -> {
+                event.accept(ModItems.EXAMPLE_ITEM)
+            }
             CreativeModeTabs.SPAWN_EGGS -> {
-                event.accept(ModItems.MY_ENTITY_SPAWN_EGG)
+                event.accept(ModItems.MY_MOB_SPAWN_EGG)
             }
         }
     }

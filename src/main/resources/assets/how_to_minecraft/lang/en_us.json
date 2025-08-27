@@ -1,5 +1,14 @@
 {
+  "registry.modid.name": "Translation Key Format",
   "itemGroup.how_to_minecraft": "Example Mod Tab",
   "block.how_to_minecraft.example_block": "Example Block",
-  "item.how_to_minecraft.example_item": "Example Item"
+  "item.how_to_minecraft.example_item": "Example Item",
+  "item.how_to_minecraft.consumable": "Consumable (yummy?)",
+  "item.how_to_minecraft.food": "Food",
+  "item.how_to_minecraft.copper_sword": "Copper Sword (pre-1.21.9)",
+  "item.how_to_minecraft.copper_helmet": "Copper Helmet (pre-1.21.9)",
+  "item.how_to_minecraft.equippable": "Equippable Thingy",
+  "item.how_to_minecraft.my_mob_spawn_egg": "My Mob Spawn Egg",
+  "entity.how_to_minecraft.my_entity": "My Entity",
+  "entity.how_to_minecraft.my_mob": "Hi Mob!"
 }

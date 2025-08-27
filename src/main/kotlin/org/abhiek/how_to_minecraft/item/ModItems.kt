@@ -201,7 +201,7 @@ object ModItems {
         )
     )
 
-    val MY_ENTITY_SPAWN_EGG: SpawnEggItem by ITEMS.registerItem("my_mob_spawn_egg") { properties ->
+    val MY_MOB_SPAWN_EGG: SpawnEggItem by ITEMS.registerItem("my_mob_spawn_egg") { properties ->
         SpawnEggItem(
             // The entity type to spawn
             MY_MOB,
