@@ -24,7 +24,8 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
-import org.abhiek.how_to_minecraft.entity.ModEntities.MY_MOB
+import org.abhiek.how_to_minecraft.block.MyBlockEntityRenderer
+import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.entity.MyMobModel
 import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
@@ -74,6 +75,10 @@ object EventHandler {
             CreativeModeTabs.BUILDING_BLOCKS -> {
                 event.accept(ModBlocks.EXAMPLE_BLOCK)
             }
+//            CreativeModeTabs.FUNCTIONAL_BLOCKS -> {
+//                event.accept(ModBlocks.MY_BLOCK_1)
+//                event.accept(ModBlocks.MY_BLOCK_2)
+//            }
             CreativeModeTabs.TOOLS_AND_UTILITIES -> {
                 event.accept(ModItems.EQUIPPABLE)
             }
@@ -131,7 +136,7 @@ object EventHandler {
     fun createDefaultAttributes(event: EntityAttributeCreationEvent) {
         event.put(
             // Your entity type
-            MY_MOB,
+            ModEntities.MY_MOB,
             // An AttributeSupplier. This is typically created by calling LivingEntity#createLivingAttributes,
             // setting your values on it, and calling #build. You can also create the AttributeSupplier from scratch
             // if you want, see the source of LivingEntity#createLivingAttributes for an example.
@@ -162,10 +167,17 @@ object EventHandler {
         }
     }
 
-    // Renderers are required for living entities
+    // Renderers are required for living & block entities
     @SubscribeEvent
     fun registerEntityRenderers(event: RegisterRenderers) {
-        event.registerEntityRenderer(MY_MOB, ::MyMobRenderer)
+        event.registerEntityRenderer(ModEntities.MY_MOB, ::MyMobRenderer)
+
+        event.registerBlockEntityRenderer(
+            // The block entity type to register the renderer for
+            ModBlocks.MY_BLOCK_ENTITY,
+            // A function of BlockEntityRendererProvider.Context to BlockEntityRenderer
+            ::MyBlockEntityRenderer
+        )
     }
 
     @SubscribeEvent

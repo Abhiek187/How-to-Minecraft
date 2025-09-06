@@ -35,6 +35,7 @@ object HowToMinecraft {
         // Register the KDeferredRegister to the mod-specific event bus
         // EVENT_BUS = game bus
         ModBlocks.BLOCKS.register(MOD_BUS)
+        ModBlocks.BLOCK_ENTITY_TYPES.register(MOD_BUS)
         ModItems.ITEMS.register(MOD_BUS)
         ModEntities.ENTITY_TYPES.register(MOD_BUS)
 

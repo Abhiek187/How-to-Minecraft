@@ -1,10 +1,14 @@
 package org.abhiek.how_to_minecraft.block
 
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import org.abhiek.how_to_minecraft.HowToMinecraft
+import thedarkcolour.kotlinforforge.neoforge.forge.getValue
 
 object ModBlocks {
     val BLOCKS: DeferredRegister.Blocks =
@@ -49,4 +53,34 @@ object ModBlocks {
             .lightLevel { 15 }
             .strength(3.0f)
     )
+
+    val BLOCK_ENTITY_TYPES: DeferredRegister<BlockEntityType<*>> =
+        DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, HowToMinecraft.ID)
+
+    val MY_BLOCK_1: MyEntityBlock by BLOCKS.register("my_block_1") { registryName ->
+        MyEntityBlock(
+            BlockBehaviour.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, registryName))
+        )
+    }
+    val MY_BLOCK_2: MyEntityBlock by BLOCKS.register("my_block_2") { registryName ->
+        MyEntityBlock(
+            BlockBehaviour.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, registryName))
+        )
+    }
+
+    // Block entities consist of entity blocks
+    val MY_BLOCK_ENTITY: BlockEntityType<MyBlockEntity> by BLOCK_ENTITY_TYPES.register("my_block_entity") { ->
+        BlockEntityType(
+            // The supplier to use for constructing the block entity instances
+            ::MyBlockEntity,
+            // An optional value that, when true, only allows players with OP permissions
+            // to load NBT data (e.g. placing a block item)
+            false,
+            // A vararg of blocks that can have this block entity.
+            // This assumes the existence of the referenced blocks as DeferredBlock<Block>s.
+            MY_BLOCK_1, MY_BLOCK_2
+        )
+    }
 }
