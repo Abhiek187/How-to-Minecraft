@@ -57,13 +57,13 @@ object ModBlocks {
     val BLOCK_ENTITY_TYPES: DeferredRegister<BlockEntityType<*>> =
         DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, HowToMinecraft.ID)
 
-    val MY_BLOCK_1: MyEntityBlock by BLOCKS.register("my_block_1") { registryName ->
+    val MY_BLOCK_1: DeferredBlock<MyEntityBlock> = BLOCKS.register("my_block_1") { registryName ->
         MyEntityBlock(
             BlockBehaviour.Properties.of()
                 .setId(ResourceKey.create(Registries.BLOCK, registryName))
         )
     }
-    val MY_BLOCK_2: MyEntityBlock by BLOCKS.register("my_block_2") { registryName ->
+    val MY_BLOCK_2: DeferredBlock<MyEntityBlock> = BLOCKS.register("my_block_2") { registryName ->
         MyEntityBlock(
             BlockBehaviour.Properties.of()
                 .setId(ResourceKey.create(Registries.BLOCK, registryName))
@@ -80,7 +80,7 @@ object ModBlocks {
             false,
             // A vararg of blocks that can have this block entity.
             // This assumes the existence of the referenced blocks as DeferredBlock<Block>s.
-            MY_BLOCK_1, MY_BLOCK_2
+            MY_BLOCK_1.get(), MY_BLOCK_2.get()
         )
     }
 }

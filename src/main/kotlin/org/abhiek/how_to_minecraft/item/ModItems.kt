@@ -38,8 +38,15 @@ object ModItems {
             .rarity(Rarity.COMMON)
     )
 
+    // Block items are required for blocks to appear in the creative mode tab
     val EXAMPLE_BLOCK_ITEM: BlockItem by ITEMS.registerSimpleBlockItem(
         ModBlocks.EXAMPLE_BLOCK
+    )
+    val MY_BLOCK_ITEM_1: BlockItem by ITEMS.registerSimpleBlockItem(
+        ModBlocks.MY_BLOCK_1
+    )
+    val MY_BLOCK_ITEM_2: BlockItem by ITEMS.registerSimpleBlockItem(
+        ModBlocks.MY_BLOCK_2
     )
 
     // Consumables can be food or potions

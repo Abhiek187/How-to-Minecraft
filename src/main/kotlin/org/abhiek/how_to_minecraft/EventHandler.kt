@@ -75,10 +75,10 @@ object EventHandler {
             CreativeModeTabs.BUILDING_BLOCKS -> {
                 event.accept(ModBlocks.EXAMPLE_BLOCK)
             }
-//            CreativeModeTabs.FUNCTIONAL_BLOCKS -> {
-//                event.accept(ModBlocks.MY_BLOCK_1)
-//                event.accept(ModBlocks.MY_BLOCK_2)
-//            }
+            CreativeModeTabs.FUNCTIONAL_BLOCKS -> {
+                event.accept(ModBlocks.MY_BLOCK_1)
+                event.accept(ModBlocks.MY_BLOCK_2)
+            }
             CreativeModeTabs.TOOLS_AND_UTILITIES -> {
                 event.accept(ModItems.EQUIPPABLE)
             }
