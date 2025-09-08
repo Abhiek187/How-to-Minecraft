@@ -9,6 +9,7 @@ import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.item.ModItems
+import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.neoforge.forge.DIST
@@ -38,6 +39,7 @@ object HowToMinecraft {
         ModBlocks.BLOCK_ENTITY_TYPES.register(MOD_BUS)
         ModItems.ITEMS.register(MOD_BUS)
         ModEntities.ENTITY_TYPES.register(MOD_BUS)
+        MyParticleTypes.PARTICLE_TYPES.register(MOD_BUS)
 
         runForDist(clientTarget = {
             MOD_BUS.addListener(::onClientSetup)

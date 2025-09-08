@@ -16,6 +16,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -33,6 +34,8 @@ import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
 import org.abhiek.how_to_minecraft.entity.MyRenderLayer
 import org.abhiek.how_to_minecraft.item.ModItems
+import org.abhiek.how_to_minecraft.particle.MyParticleProvider
+import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.provider.ExampleModelProvider
 import org.abhiek.how_to_minecraft.provider.MyEquipmentInfoProvider
 
@@ -263,5 +266,14 @@ object EventHandler {
             // Colors are in ARGB format.
             0xFFFFFFFF.toInt()
         }
+    }
+
+    @SubscribeEvent
+    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
+        // There are multiple ways to register providers, all differing in the functional type they provide in the
+        // second parameter. For example, #registerSpriteSet represents a Function<SpriteSet, ParticleProvider<?>>:
+        event.registerSpriteSet(MyParticleTypes.MY_PARTICLE, ::MyParticleProvider)
+        // Other methods include #registerSprite, which is essentially a Supplier<TextureSheetParticle>,
+        // and #registerSpecial, which maps to a Supplier<Particle>. See the source code of the event for further info.
     }
 }
