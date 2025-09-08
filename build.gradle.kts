@@ -90,10 +90,16 @@ neoForge {
             // gameDirectory = project.file("run-data")
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            // Resource pack structure: https://minecraft.wiki/w/Resource_pack#Directory_structure
+            // Data pack structure: https://minecraft.wiki/w/Data_pack#Folder_structure
             programArguments.addAll(
+                // Run data generator for this mod
                 "--mod", modId,
+                // Enable all generator modes
                 "--all",
+                // Output data generated to the provided directory
                 "--output", file("src/generated/resources/").absolutePath,
+                // Use the given folder to check for existing files
                 "--existing", file("src/main/resources/").absolutePath
             )
         }

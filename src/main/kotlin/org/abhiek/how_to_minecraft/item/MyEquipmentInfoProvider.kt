@@ -6,9 +6,6 @@ import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataProvider
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceLocation
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.neoforge.data.event.GatherDataEvent
-import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID
 import org.abhiek.how_to_minecraft.HowToMinecraft
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
@@ -108,12 +105,5 @@ class MyEquipmentInfoProvider(output: PackOutput) : DataProvider {
         )
     }
 
-    override fun getName() = "Equipment Client Infos: $MOD_ID"
-}
-
-@SubscribeEvent
-fun gatherData(event: GatherDataEvent.Client) {
-    event.createProvider { output ->
-        MyEquipmentInfoProvider(output)
-    }
+    override fun getName() = "Equipment Client Infos: ${HowToMinecraft.ID}"
 }

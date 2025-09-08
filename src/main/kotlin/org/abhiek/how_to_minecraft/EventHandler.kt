@@ -17,6 +17,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderer
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
+import net.neoforged.neoforge.data.event.GatherDataEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
@@ -31,6 +32,7 @@ import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
 import org.abhiek.how_to_minecraft.entity.MyRenderLayer
 import org.abhiek.how_to_minecraft.item.ModItems
+import org.abhiek.how_to_minecraft.item.MyEquipmentInfoProvider
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
@@ -113,6 +115,15 @@ object EventHandler {
         println("Key mapping Key: ${event.keyMapping.key}, Name: ${event.keyMapping.name}, Category: ${
             event.keyMapping.category
         }")
+    }
+
+    @SubscribeEvent
+    fun gatherData(event: GatherDataEvent.Client) {
+        // Alternative to creating JSON files manually
+//        event.createProvider { output ->
+//            MyEquipmentInfoProvider(output)
+//        }
+        event.createProvider(::MyEquipmentInfoProvider)
     }
 
     @SubscribeEvent
