@@ -15,6 +15,7 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.neoforged.neoforge.client.event.InputEvent
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -32,7 +33,8 @@ import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
 import org.abhiek.how_to_minecraft.entity.MyRenderLayer
 import org.abhiek.how_to_minecraft.item.ModItems
-import org.abhiek.how_to_minecraft.item.MyEquipmentInfoProvider
+import org.abhiek.how_to_minecraft.provider.ExampleModelProvider
+import org.abhiek.how_to_minecraft.provider.MyEquipmentInfoProvider
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
@@ -124,6 +126,7 @@ object EventHandler {
 //            MyEquipmentInfoProvider(output)
 //        }
         event.createProvider(::MyEquipmentInfoProvider)
+        event.createProvider(::ExampleModelProvider)
     }
 
     @SubscribeEvent
@@ -233,6 +236,32 @@ object EventHandler {
                 // The EntityModelSet can be retrieved from the event through #getEntityModels.
                 renderer.addLayer(MyRenderLayer(renderer, event.entityModels))
             }
+        }
+    }
+
+    @SubscribeEvent
+    fun registerBlockColorHandlers(event: RegisterColorHandlersEvent.Block) {
+        // Parameters are the block's state, the level the block is in, the block's position, and the tint index.
+        // The level and position may be null.
+        event.register(
+            { _, _, _, _ ->
+                // Replace with your own calculation. See the BlockColors class for vanilla references.
+                // Colors are in ARGB format. Generally, if the tint index is -1, it means that no tinting
+                // should take place and a default value should be used instead.
+                0xFFFFFFFF.toInt()
+            },
+            // A varargs of blocks to apply the tinting to
+            ModBlocks.EXAMPLE_BLOCK.get()
+        )
+    }
+
+    @SubscribeEvent
+    fun registerColorResolvers(event: RegisterColorHandlersEvent.ColorResolvers) {
+        // Parameters are the current biome, the block's X position, and the block's Z position.
+        event.register { _, _, _ ->
+            // Replace with your own calculation. See the BiomeColors class for vanilla references.
+            // Colors are in ARGB format.
+            0xFFFFFFFF.toInt()
         }
     }
 }

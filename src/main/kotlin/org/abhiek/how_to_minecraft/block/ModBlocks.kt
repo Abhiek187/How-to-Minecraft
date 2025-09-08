@@ -76,7 +76,7 @@ object ModBlocks {
             // The supplier to use for constructing the block entity instances
             ::MyBlockEntity,
             // An optional value that, when true, only allows players with OP permissions
-            // to load NBT data (e.g. placing a block item)
+            // to load NBT (Named Binary Tag) data (e.g. placing a block item)
             false,
             // A vararg of blocks that can have this block entity.
             // This assumes the existence of the referenced blocks as DeferredBlock<Block>s.

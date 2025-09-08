@@ -1,0 +1,20 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "how_to_minecraft:item/example_item",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 65280
+      },
+      {
+        "type": "minecraft:dye",
+        "default": 255
+      }
+    ]
+  },
+  "properties": {
+    "hand_animation_on_swap": false,
+    "oversized_in_gui": false
+  }
+}

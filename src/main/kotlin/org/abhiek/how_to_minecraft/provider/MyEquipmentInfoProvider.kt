@@ -1,7 +1,6 @@
-package org.abhiek.how_to_minecraft.item
+package org.abhiek.how_to_minecraft.provider
 
 import net.minecraft.client.resources.model.EquipmentClientInfo
-import net.minecraft.client.resources.model.EquipmentClientInfo.Dyeable
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataProvider
 import net.minecraft.data.PackOutput
@@ -43,7 +42,7 @@ class MyEquipmentInfoProvider(output: PackOutput) : DataProvider {
                         ),
                         // An RGB value (always opaque color)
                         // When not specified, set to 0 (meaning transparent or invisible)
-                        Optional.of(Dyeable(Optional.of(0x7683DE))),
+                        Optional.of(EquipmentClientInfo.Dyeable(Optional.of(0x7683DE))),
                         false
                     )
                 )
@@ -59,7 +58,7 @@ class MyEquipmentInfoProvider(output: PackOutput) : DataProvider {
                     EquipmentClientInfo.Layer(
                         // Points to assets/how_to_minecraft/textures/entity/equipment/humanoid_leggings/copper/inner_overlay.png
                         ResourceLocation.fromNamespaceAndPath(HowToMinecraft.ID, "copper/inner_overlay"),
-                        Optional.of(Dyeable(Optional.of(0x7683DE))),
+                        Optional.of(EquipmentClientInfo.Dyeable(Optional.of(0x7683DE))),
                         false
                     )
                 )
