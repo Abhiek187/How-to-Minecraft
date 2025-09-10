@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:story/root",
+  "display": {
+    "icon": {
+      "id": "minecraft:grass_block"
+    },
+    "title": {
+      "translate": "advancements.how_to_minecraft.example_advancement.title"
+    },
+    "description": {
+      "translate": "advancements.how_to_minecraft.example_advancement.description"
+    },
+    "frame": "goal",
+    "background": null,
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pickup_dirt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:dirt"]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["pickup_dirt"]
+  ],
+  "rewards": {
+    "experience": 100,
+    "recipes": ["minecraft:iron_ingot"],
+    "loot": ["minecraft:chests/igloo"],
+    "function": "how_to_minecraft:example_function"
+  }
+}

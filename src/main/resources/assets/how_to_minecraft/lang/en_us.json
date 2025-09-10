@@ -1,6 +1,8 @@
 {
   "registry.modid.name": "Translation Key Format",
   "itemGroup.how_to_minecraft": "Example Mod Tab",
+  "advancements.how_to_minecraft.example_advancement.title": "Example Advancement",
+  "advancements.how_to_minecraft.example_advancement.description": "Be an awesome player",
   "block.how_to_minecraft.example_block": "Example Block",
   "block.how_to_minecraft.my_block_1": "Entity Block 1",
   "block.how_to_minecraft.my_block_2": "Entity Block 2",
