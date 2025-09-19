@@ -1,0 +1,28 @@
+{
+  "description": {
+    "translate": "enchantment.how_to_minecraft.enchant_name"
+  },
+  "supported_items": [
+    "how_to_minecraft:copper_sword",
+    "how_to_minecraft:copper_helmet"
+  ],
+  "weight": 6,
+  "max_level": 3,
+  "max_cost": {
+    "base": 45,
+    "per_level_above_first": 9
+  },
+  "min_cost": {
+    "base": 2,
+    "per_level_above_first": 8
+  },
+  "anvil_cost": 2,
+  "slots": [
+    "mainhand"
+  ],
+  "effects": {
+    "how_to_minecraft:increment": {
+      "value": 42
+    }
+  }
+}
