@@ -25,9 +25,12 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.block.MyBlockEntityRenderer
+import org.abhiek.how_to_minecraft.data_map.ExampleData.Companion.EXAMPLE_DATA
 import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.entity.MyMobModel
 import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
@@ -275,5 +278,26 @@ object EventHandler {
         event.registerSpriteSet(MyParticleTypes.MY_PARTICLE, ::MyParticleProvider)
         // Other methods include #registerSprite, which is essentially a Supplier<TextureSheetParticle>,
         // and #registerSpecial, which maps to a Supplier<Particle>. See the source code of the event for further info.
+    }
+
+    @SubscribeEvent
+    fun registerDataMapTypes(event: RegisterDataMapTypesEvent) {
+        event.register(EXAMPLE_DATA)
+    }
+
+    @SubscribeEvent
+    fun itemPickup(event: ItemEntityPickupEvent.Post) {
+        val stack = event.currentStack
+        // Get a Holder<Item> via ItemStack#getItemHolder
+        val holder = stack.itemHolder
+        // Get the data from the holder
+        val data = holder.getData(EXAMPLE_DATA)
+        if (data != null) {
+            // The values are present, so let's do something with them!
+            val player = event.player
+            if (player.level().getRandom().nextFloat() > data.chance) {
+                player.heal(data.amount)
+            }
+        }
     }
 }
