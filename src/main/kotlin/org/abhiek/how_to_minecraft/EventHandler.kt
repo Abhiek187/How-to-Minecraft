@@ -3,12 +3,17 @@ package org.abhiek.how_to_minecraft
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.player.PlayerRenderer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.context.ContextKey
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.CreativeModeTabs
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.crafting.CraftingInput
+import net.minecraft.world.item.crafting.RecipeType
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -20,6 +25,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
+import net.neoforged.neoforge.event.AnvilUpdateEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
@@ -76,6 +82,36 @@ object EventHandler {
         if (entity is Player) {
             debugMenu(HowToMinecraft.LOGGER, entity)
         }
+
+        val serverLevel = event.entity.level()
+        if (serverLevel !is ServerLevel) return
+        val recipes = serverLevel.recipeAccess()
+        // Construct a RecipeInput, as required by the recipe. For example, construct a CraftingInput for a crafting recipe.
+        // The parameters are width, height and items, respectively.
+        val input = CraftingInput.of(1, 1, listOf(ItemStack(Items.DIAMOND_BLOCK)))
+        // The generic wildcard on the recipe holder should then extend CraftingRecipe.
+        // This allows for more type safety later on.
+        val optional = recipes.getRecipeFor(
+            // The recipe type to get the recipe for. In our case, we use the crafting type.
+            RecipeType.CRAFTING,
+            // Our recipe input
+            input,
+            // Our level context
+            serverLevel
+        )
+
+        // Use ItemStack.EMPTY as a fallback
+        val result = optional
+            .map { obj -> obj.value() }
+            .map { recipe -> recipe.assemble(input, serverLevel.registryAccess()) }
+            .orElse(ItemStack.EMPTY)
+        println("How to make a diamond block: $result")
+
+        // Like before, pass the desired recipe type
+        val craftingRecipes = recipes.recipeMap().byType(RecipeType.CRAFTING)
+        println("${craftingRecipes.size} crafting recipes")
+        val smeltingRecipes = recipes.recipeMap().byType(RecipeType.SMELTING)
+        println("${smeltingRecipes.size} smelting recipes")
     }
 
     @SubscribeEvent
@@ -298,6 +334,18 @@ object EventHandler {
             if (player.level().getRandom().nextFloat() > data.chance) {
                 player.heal(data.amount)
             }
+        }
+    }
+
+    // This example allows repairing a stone pickaxe with a full stack of dirt, consuming half the stack, for 3 levels.
+    @SubscribeEvent
+    fun onAnvilUpdate(event: AnvilUpdateEvent) {
+        val left = event.left
+        val right = event.right
+        if (left.`is`(Items.STONE_PICKAXE) && right.`is`(Items.DIRT) && right.count >= 64) {
+            event.output = ItemStack(Items.STONE_PICKAXE)
+            event.materialCost = 32
+            event.xpCost = 3
         }
     }
 }
