@@ -61,7 +61,7 @@ class RandomEnchantmentWithLevelFunction(
         return stack
     }
 
-    override fun getType(): LootItemFunctionType<out LootItemConditionalFunction?> {
+    override fun getType(): LootItemFunctionType<out LootItemConditionalFunction> {
         return RANDOM_ENCHANTMENT_WITH_LEVEL
     }
 

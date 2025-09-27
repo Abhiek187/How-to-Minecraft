@@ -19,7 +19,7 @@ class RightClickBlockRecipeBuilder(
     private val inputItem: Ingredient
 ): SimpleRecipeBuilder(result) {
     // Saves a recipe using the given RecipeOutput and key. This method is defined in the RecipeBuilder interface.
-    override fun save(output: RecipeOutput, key: ResourceKey<Recipe<*>?>) {
+    override fun save(output: RecipeOutput, key: ResourceKey<Recipe<*>>) {
         // Build the advancement.
         val advancement = output.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(key))

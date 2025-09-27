@@ -38,7 +38,7 @@ data class ExampleTriggerInstance(
                 ).apply(instance, ::ExampleTriggerInstance)
             }
 
-        fun instance(player: ContextAwarePredicate, item: ItemPredicate): Criterion<ExampleTriggerInstance?> {
+        fun instance(player: ContextAwarePredicate, item: ItemPredicate): Criterion<ExampleTriggerInstance> {
             return EXAMPLE_TRIGGER.createCriterion(
                 ExampleTriggerInstance(Optional.of(player), item)
             )

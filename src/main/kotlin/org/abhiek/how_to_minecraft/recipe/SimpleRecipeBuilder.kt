@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack
 // Alternatively, static builder methods are also possible.
 // Make the fields protected so our subclasses can use them.
 abstract class SimpleRecipeBuilder(protected val result: ItemStack): RecipeBuilder {
-    protected val criteria: MutableMap<String?, Criterion<*>?> = LinkedHashMap()
+    protected val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     protected var group: String? = null
 
     // This method adds a criterion for the recipe advancement.

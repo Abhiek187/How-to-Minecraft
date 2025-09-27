@@ -56,7 +56,7 @@ class EntityLootEntry private constructor(
                 )
                     // Add common fields: weight, display, conditions, and functions
                     .and(
-                        singletonFields<EntityLootEntry?>(
+                        singletonFields<EntityLootEntry>(
                             inst
                         )
                     )

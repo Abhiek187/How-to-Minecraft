@@ -48,7 +48,7 @@ data class BlockStateSlotDisplay(val state: BlockState): SlotDisplay {
         }
     }
 
-    override fun type(): SlotDisplay.Type<out SlotDisplay?> {
+    override fun type(): SlotDisplay.Type<out SlotDisplay> {
         // Return the registered type from below
         return BLOCK_STATE_SLOT_DISPLAY
     }

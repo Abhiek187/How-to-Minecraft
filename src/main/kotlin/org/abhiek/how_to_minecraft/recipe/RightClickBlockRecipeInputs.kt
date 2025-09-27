@@ -11,7 +11,7 @@ interface RightClickBlockRecipeInputs {
     val inputStates: Set<BlockState>
     val inputItems: Set<Holder<Item>>
 
-    fun test(state: BlockState?, stack: ItemStack): Boolean {
+    fun test(state: BlockState, stack: ItemStack): Boolean {
         return this.inputStates.contains(state) && this.inputItems.contains(stack.itemHolder)
     }
 }
