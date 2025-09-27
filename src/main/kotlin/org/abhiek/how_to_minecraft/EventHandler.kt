@@ -5,14 +5,17 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.context.ContextKey
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.CreativeModeTabs
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.CraftingInput
+import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeType
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
@@ -22,6 +25,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderer
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -33,6 +37,7 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
+import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.block.MyBlockEntityRenderer
@@ -47,6 +52,9 @@ import org.abhiek.how_to_minecraft.particle.MyParticleProvider
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.provider.ExampleModelProvider
 import org.abhiek.how_to_minecraft.provider.MyEquipmentInfoProvider
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockInput
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipe
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipes
 
 // Subscribe to all events at once: MOD_BUS.register(EventHandler)
 @EventBusSubscriber(modid = HowToMinecraft.ID)
@@ -347,5 +355,61 @@ object EventHandler {
             event.materialCost = 32
             event.xpCost = 3
         }
+    }
+
+    @SubscribeEvent
+    fun registerSearchCategories(event: RegisterRecipeBookSearchCategoriesEvent) {
+        event.register(
+            // The search category
+            RightClickBlockRecipe.RIGHT_CLICK_BLOCK_SEARCH_CATEGORY,
+            // All recipe categories within the search category as varargs
+            RightClickBlockRecipe.RIGHT_CLICK_BLOCK_CATEGORY
+        )
+    }
+
+    @SubscribeEvent
+    fun useItemOnBlock(event: UseItemOnBlockEvent) {
+        // Skip if we are not in the block-dictated phase of the event. See the event's javadocs for details.
+        if (event.usePhase != UseItemOnBlockEvent.UsePhase.BLOCK) return
+        // Get parameters to check input first
+        val level = event.level
+        val pos = event.pos
+        val blockState = level.getBlockState(pos)
+        val itemStack = event.itemStack
+
+        // Check if the input can result in a recipe on both sides
+        if (RightClickBlockRecipes.inputs(level)?.test(blockState, itemStack) != true) return
+
+        // If so, make sure on server before checking recipe
+        if (!level.isClientSide() && level is ServerLevel) {
+            // Create an input and query the recipe
+            val input = RightClickBlockInput(blockState, itemStack)
+            val optional = level.recipeAccess().getRecipeFor(
+                // The recipe type
+                RightClickBlockRecipe.RIGHT_CLICK_BLOCK_TYPE,
+                input,
+                level
+            )
+            val result = optional
+                .map(RecipeHolder<RightClickBlockRecipe>::value)
+                .map { e -> e.assemble(input, level.registryAccess()) }
+                .orElse(ItemStack.EMPTY)
+
+            // If there is a result, break the block and drop the result in the world.
+            if (!result.isEmpty) {
+                level.removeBlock(pos, false)
+                val entity = ItemEntity(
+                    level,
+                    // Center of pos
+                    pos.x + 0.5, pos.y + 0.5, pos.z + 0.5,
+                    result
+                )
+                level.addFreshEntity(entity)
+            }
+        }
+
+        // Cancel the event to stop the interaction pipeline regardless of side.
+        // Already made sure that there could be a result.
+        event.cancelWithResult(InteractionResult.SUCCESS_SERVER)
     }
 }

@@ -11,6 +11,10 @@ import org.abhiek.how_to_minecraft.enchantment.Increment
 import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.item.ModItems
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
+import org.abhiek.how_to_minecraft.recipe.BlockStateSlotDisplay
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipe
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipeDisplay
+import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipeSerializer
 import org.abhiek.how_to_minecraft.sound.MySoundsObject
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -44,6 +48,11 @@ object HowToMinecraft {
         MyParticleTypes.PARTICLE_TYPES.register(MOD_BUS)
         MySoundsObject.SOUND_EVENTS.register(MOD_BUS)
         Increment.ENCHANTMENT_COMPONENT_TYPES.register(MOD_BUS)
+        RightClickBlockRecipe.RECIPE_BOOK_CATEGORIES.register(MOD_BUS)
+        BlockStateSlotDisplay.SLOT_DISPLAY_TYPES.register(MOD_BUS)
+        RightClickBlockRecipeDisplay.RECIPE_DISPLAY_TYPES.register(MOD_BUS)
+        RightClickBlockRecipe.RECIPE_TYPES.register(MOD_BUS)
+        RightClickBlockRecipeSerializer.RECIPE_SERIALIZERS.register(MOD_BUS)
 
         runForDist(clientTarget = {
             MOD_BUS.addListener(::onClientSetup)
