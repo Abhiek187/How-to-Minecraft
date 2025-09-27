@@ -9,6 +9,6 @@ object RightClickBlockRecipes {
             ClientRightClickBlockRecipes.inputs
         } else {
             ServerRightClickBlockRecipes.inputs
-            }
+        }
     }
 }

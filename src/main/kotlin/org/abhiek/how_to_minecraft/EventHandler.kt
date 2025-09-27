@@ -52,6 +52,7 @@ import org.abhiek.how_to_minecraft.particle.MyParticleProvider
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.provider.ExampleModelProvider
 import org.abhiek.how_to_minecraft.provider.MyEquipmentInfoProvider
+import org.abhiek.how_to_minecraft.recipe.MyRecipeProvider
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockInput
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipe
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipes
@@ -177,6 +178,7 @@ object EventHandler {
 //        }
         event.createProvider(::MyEquipmentInfoProvider)
         event.createProvider(::ExampleModelProvider)
+        event.createProvider(MyRecipeProvider::Runner)
     }
 
     @SubscribeEvent
