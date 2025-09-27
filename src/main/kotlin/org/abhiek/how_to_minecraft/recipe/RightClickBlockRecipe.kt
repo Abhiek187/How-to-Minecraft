@@ -53,7 +53,7 @@ class RightClickBlockRecipe(
     // We check our blockstate and our item stack, and only return true if both match.
     // If we needed to check the dimensions of our input, we would also do so here.
     override fun matches(input: RightClickBlockInput, level: Level): Boolean {
-        return this.inputState === input.state && this.inputItem.test(input.stack)
+        return this.inputState == input.state && this.inputItem.test(input.stack)
     }
 
     // Return the result of the recipe here, based on the given input. The first parameter matches the generic.

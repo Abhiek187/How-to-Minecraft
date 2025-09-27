@@ -1,0 +1,11 @@
+{
+  "type": "how_to_minecraft:right_click_block",
+  "ingredient": "minecraft:apple",
+  "result": {
+    "count": 1,
+    "id": "minecraft:diamond"
+  },
+  "state": {
+    "Name": "minecraft:dirt"
+  }
+}

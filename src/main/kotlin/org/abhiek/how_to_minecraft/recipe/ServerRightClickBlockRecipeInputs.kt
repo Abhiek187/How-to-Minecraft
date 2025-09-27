@@ -8,8 +8,6 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.neoforge.network.PacketDistributor
-import net.neoforged.neoforge.server.ServerLifecycleHooks
-import java.util.function.Consumer
 import java.util.stream.Stream
 
 // Server resource listener so it can be reloaded when recipes are
@@ -22,18 +20,18 @@ class ServerRightClickBlockRecipeInputs(
     // Recipes are always applied first.
     override fun onResourceManagerReload(manager: ResourceManager) {
         // Should never be null
-        ServerLifecycleHooks.getCurrentServer() ?: return
+//        ServerLifecycleHooks.getCurrentServer() ?: return
 
         // Populate inputs
         val inputStates = HashSet<BlockState>()
         val inputItems = HashSet<Holder<Item>>()
 
         this.recipeManager.recipeMap().byType(RightClickBlockRecipe.RIGHT_CLICK_BLOCK_TYPE)
-            .forEach(Consumer { holder ->
+            .forEach { holder ->
                 val recipe = holder.value()
                 inputStates.add(recipe.inputState)
                 inputItems.addAll(recipe.inputItem.values)
-            })
+            }
 
         this.inputStates = inputStates
         this.inputItems = inputItems

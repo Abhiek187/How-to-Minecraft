@@ -26,6 +26,7 @@ import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent
+import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -38,6 +39,8 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.network.handlers.ServerPayloadHandler
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.block.MyBlockEntityRenderer
@@ -50,8 +53,8 @@ import org.abhiek.how_to_minecraft.entity.MyRenderLayer
 import org.abhiek.how_to_minecraft.item.ModItems
 import org.abhiek.how_to_minecraft.particle.MyParticleProvider
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
-import org.abhiek.how_to_minecraft.provider.ExampleModelProvider
-import org.abhiek.how_to_minecraft.provider.MyEquipmentInfoProvider
+import org.abhiek.how_to_minecraft.recipe.ClientRightClickBlockRecipes
+import org.abhiek.how_to_minecraft.recipe.ClientboundRightClickBlockRecipesPayload
 import org.abhiek.how_to_minecraft.recipe.MyRecipeProvider
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockInput
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipe
@@ -176,8 +179,8 @@ object EventHandler {
 //        event.createProvider { output ->
 //            MyEquipmentInfoProvider(output)
 //        }
-        event.createProvider(::MyEquipmentInfoProvider)
-        event.createProvider(::ExampleModelProvider)
+//        event.createProvider(::MyEquipmentInfoProvider)
+//        event.createProvider(::ExampleModelProvider)
         event.createProvider(MyRecipeProvider::Runner)
     }
 
@@ -371,6 +374,7 @@ object EventHandler {
 
     @SubscribeEvent
     fun useItemOnBlock(event: UseItemOnBlockEvent) {
+        println("UseItemOnBlockEvent usePhase: ${event.usePhase}")
         // Skip if we are not in the block-dictated phase of the event. See the event's javadocs for details.
         if (event.usePhase != UseItemOnBlockEvent.UsePhase.BLOCK) return
         // Get parameters to check input first
@@ -378,8 +382,10 @@ object EventHandler {
         val pos = event.pos
         val blockState = level.getBlockState(pos)
         val itemStack = event.itemStack
+        println("Using an item ($itemStack) on a block ($blockState)")
 
         // Check if the input can result in a recipe on both sides
+        // Right-click dirt with an apple in hand --> convert dirt block into a diamond
         if (RightClickBlockRecipes.inputs(level)?.test(blockState, itemStack) != true) return
 
         // If so, make sure on server before checking recipe
@@ -413,5 +419,25 @@ object EventHandler {
         // Cancel the event to stop the interaction pipeline regardless of side.
         // Already made sure that there could be a result.
         event.cancelWithResult(InteractionResult.SUCCESS_SERVER)
+    }
+
+    @SubscribeEvent
+    fun register(event: RegisterPayloadHandlersEvent) {
+        val registrar = event.registrar("1")
+        registrar.playBidirectional(
+            ClientboundRightClickBlockRecipesPayload.TYPE,
+            ClientboundRightClickBlockRecipesPayload.STREAM_CODEC
+        ) { payload, context ->
+//            @Suppress("UnstableApiUsage")
+//            ServerPayloadHandler.handle(payload, context)
+        }
+    }
+
+    @SubscribeEvent
+    fun register(event: RegisterClientPayloadHandlersEvent) {
+        event.register(
+            ClientboundRightClickBlockRecipesPayload.TYPE,
+            ClientRightClickBlockRecipes::handle
+        )
     }
 }

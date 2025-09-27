@@ -2,11 +2,13 @@ package org.abhiek.how_to_minecraft.recipe
 
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent
 import net.neoforged.neoforge.event.OnDatapackSyncEvent
 import org.abhiek.how_to_minecraft.HowToMinecraft
 
 // Handling the recipe instance depending on side
+@EventBusSubscriber(modid = HowToMinecraft.ID)
 object ServerRightClickBlockRecipes {
     var inputs: ServerRightClickBlockRecipeInputs? = null
 

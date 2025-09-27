@@ -1,9 +1,12 @@
 package org.abhiek.how_to_minecraft.recipe
 
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent.LoggingOut
 import net.neoforged.neoforge.network.handling.IPayloadContext
+import org.abhiek.how_to_minecraft.HowToMinecraft
 
+@EventBusSubscriber(modid = HowToMinecraft.ID)
 object ClientRightClickBlockRecipes {
     var inputs: ClientRightClickBlockRecipeInputs? = null
 
