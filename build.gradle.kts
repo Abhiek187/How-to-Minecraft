@@ -2,9 +2,9 @@ plugins {
     `java-library`
     `maven-publish`
     idea
-    id("net.neoforged.moddev") version "2.0.105"
-    kotlin("jvm") version "2.1.21"
-    id("com.github.ben-manes.versions") version "0.52.0"
+    id("net.neoforged.moddev") version "2.0.107"
+    kotlin("jvm") version "2.2.20"
+    id("com.github.ben-manes.versions") version "0.53.0"
 }
 
 val minecraftVersion: String by project
@@ -142,7 +142,7 @@ sourceSets {
 
 dependencies {
     // Dependency chart: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs/edit?usp=sharing
-    implementation("thedarkcolour:kotlinforforge-neoforge:5.9.0")
+    implementation("thedarkcolour:kotlinforforge-neoforge:5.10.0")
 
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
