@@ -6,6 +6,12 @@ See [NeoForge's docs](https://docs.neoforged.net/docs/gettingstarted/) for more 
 
 ## Commands
 
+**Build**
+
+```bash
+gradlew build
+```
+
 **Generate Data**
 
 ```bash
