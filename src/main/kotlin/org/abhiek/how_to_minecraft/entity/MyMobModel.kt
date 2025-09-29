@@ -1,7 +1,6 @@
 package org.abhiek.how_to_minecraft.entity
 
 import net.minecraft.client.model.EntityModel
-import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -10,6 +9,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
+import net.neoforged.neoforge.client.entity.animation.json.AnimationHolder
 import org.abhiek.how_to_minecraft.HowToMinecraft
 
 // The ModelPart passed here is the root of our baked model.
@@ -34,7 +34,7 @@ class MyMobModel(root: ModelPart): EntityModel<MyMobRenderState>(root) {
             "main"
         )
         // Create and store a reference to the animation holder.
-        val EXAMPLE_ANIMATION = Model.getAnimation(
+        val EXAMPLE_ANIMATION: AnimationHolder = getAnimation(
             ResourceLocation.fromNamespaceAndPath(HowToMinecraft.ID, "example")
         )
 

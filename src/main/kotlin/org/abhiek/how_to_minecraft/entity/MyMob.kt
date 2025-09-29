@@ -17,8 +17,8 @@ class MyMob(type: EntityType<out MyMob>, level: Level): Mob(type, level) {
         // Setting the max health must either be done by getting the AttributeInstance and calling #setBaseValue, or by
         // adding an attribute modifier.
         // attributes.getInstance(Attributes.MAX_HEALTH)?.baseValue = 50.0
-        println("MyLivingEntity attributes: $attributes")
-        println("MyLivingEntity max health: $maxHealth")
+        println("MyMob attributes: $attributes")
+        println("MyMob max health: $maxHealth")
 
         return HumanoidArm.LEFT // lefty
     }
