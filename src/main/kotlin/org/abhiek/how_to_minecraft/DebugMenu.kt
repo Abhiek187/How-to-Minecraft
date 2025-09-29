@@ -52,7 +52,7 @@ fun debugMenu(logger: Logger, player: Player) {
 
     // Right side
     val javaVersion = System.getProperty("java.version")
-    val hitResult = Minecraft.getInstance().hitResult
+    val hitResult = if (isPhysicalClient) Minecraft.getInstance().hitResult else null
 
     logger.debug("Java: {}", javaVersion)
 
