@@ -1,0 +1,14 @@
+{
+  "values": [
+    {
+      "id": "how_to_minecraft:example_ingot",
+      "required": false
+    },
+    "minecraft:gold_ingot",
+    "#minecraft:planks"
+  ],
+  "replace": false,
+  "remove": [
+    "minecraft:iron_ingot"
+  ]
+}
