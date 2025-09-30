@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.storage.ValueInput
 import net.minecraft.world.level.storage.ValueOutput
 
-
 class MyBlockEntity(pos: BlockPos, state: BlockState):
     BlockEntity(ModBlocks.MY_BLOCK_ENTITY, pos, state) {
     // This can be any value of any type you want, so long as you can somehow serialize it to the value I/O.
