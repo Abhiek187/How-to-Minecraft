@@ -33,11 +33,7 @@ import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.data_map.ExampleData.Companion.EXAMPLE_DATA
 import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.item.ModItems
-import org.abhiek.how_to_minecraft.recipe.ClientboundRightClickBlockRecipesPayload
-import org.abhiek.how_to_minecraft.recipe.MyRecipeProvider
-import org.abhiek.how_to_minecraft.recipe.RightClickBlockInput
-import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipe
-import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipes
+import org.abhiek.how_to_minecraft.recipe.*
 
 /* Subscribe to all events at once: MOD_BUS.register(EventHandler):
  * https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.21.x-neoforge/net/neoforged/neoforge/event/package-summary.html
