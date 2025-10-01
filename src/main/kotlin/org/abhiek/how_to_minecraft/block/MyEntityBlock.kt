@@ -1,8 +1,14 @@
 package org.abhiek.how_to_minecraft.block
 
 import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.Containers
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.MenuProvider
+import net.minecraft.world.SimpleMenuProvider
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.EntityBlock
@@ -10,8 +16,10 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
+import org.abhiek.how_to_minecraft.gui.MyMenu
 
-class MyEntityBlock(properties: Properties) : Block(properties), EntityBlock {
+class MyEntityBlock(properties: Properties): Block(properties), EntityBlock {
     // Return a new instance of our block entity here
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return MyBlockEntity(pos, state)
@@ -42,5 +50,28 @@ class MyEntityBlock(properties: Properties) : Block(properties), EntityBlock {
         } else {
             null
         }
+    }
+
+    override fun getMenuProvider(state: BlockState, level: Level, pos: BlockPos): MenuProvider {
+        return SimpleMenuProvider(
+            { containerId, playerInventory, _ ->
+                MyMenu(containerId, playerInventory)
+            },
+            Component.translatable("menu.title.how_to_minecraft.my_menu")
+        )
+    }
+
+    override fun useWithoutItem(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        player: Player,
+        hitResult: BlockHitResult
+    ): InteractionResult {
+        if (!level.isClientSide && player is ServerPlayer) {
+            player.openMenu(state.getMenuProvider(level, pos))
+        }
+
+        return InteractionResult.SUCCESS
     }
 }

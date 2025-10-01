@@ -15,5 +15,6 @@
   "item.how_to_minecraft.equippable": "Equippable Thingy",
   "item.how_to_minecraft.my_mob_spawn_egg": "My Mob Spawn Egg",
   "entity.how_to_minecraft.my_entity": "My Entity",
-  "entity.how_to_minecraft.my_mob": "Hi Mob!"
+  "entity.how_to_minecraft.my_mob": "Hi Mob!",
+  "menu.title.how_to_minecraft.my_menu": "My Menu"
 }

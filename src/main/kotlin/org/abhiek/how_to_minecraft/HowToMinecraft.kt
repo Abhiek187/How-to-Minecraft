@@ -9,6 +9,8 @@ import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.enchantment.Increment
 import org.abhiek.how_to_minecraft.entity.ModEntities
+import org.abhiek.how_to_minecraft.gui.MyMenu
+import org.abhiek.how_to_minecraft.gui.MyMenuExtra
 import org.abhiek.how_to_minecraft.item.ModItems
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.recipe.BlockStateSlotDisplay
@@ -53,6 +55,8 @@ object HowToMinecraft {
         RightClickBlockRecipeDisplay.RECIPE_DISPLAY_TYPES.register(MOD_BUS)
         RightClickBlockRecipe.RECIPE_TYPES.register(MOD_BUS)
         RightClickBlockRecipeSerializer.RECIPE_SERIALIZERS.register(MOD_BUS)
+        MyMenu.REGISTER.register(MOD_BUS)
+        MyMenuExtra.REGISTER.register(MOD_BUS)
 
         runForDist(clientTarget = {
             MOD_BUS.addListener(::onClientSetup)
