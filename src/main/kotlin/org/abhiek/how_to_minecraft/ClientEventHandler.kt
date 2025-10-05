@@ -7,11 +7,7 @@ import net.minecraft.util.context.ContextKey
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.client.event.EntityRenderersEvent
-import net.neoforged.neoforge.client.event.InputEvent
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent
+import net.neoforged.neoforge.client.event.*
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
@@ -21,6 +17,10 @@ import org.abhiek.how_to_minecraft.entity.MyMobModel
 import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
 import org.abhiek.how_to_minecraft.entity.MyRenderLayer
+import org.abhiek.how_to_minecraft.gui.ExampleRenderState
+import org.abhiek.how_to_minecraft.gui.ExampleRenderer
+import org.abhiek.how_to_minecraft.gui.MyContainerScreen
+import org.abhiek.how_to_minecraft.gui.MyMenu
 import org.abhiek.how_to_minecraft.particle.MyParticleProvider
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.recipe.ClientRightClickBlockRecipes
@@ -156,6 +156,24 @@ object ClientEventHandler {
         event.register(
             ClientboundRightClickBlockRecipesPayload.TYPE,
             ClientRightClickBlockRecipes::handle
+        )
+    }
+
+    @SubscribeEvent
+    fun registerPip(event: RegisterPictureInPictureRenderersEvent) {
+        event.register(
+            // The PiP render state class
+            ExampleRenderState::class.java,
+            // A factory that takes in the `MultiBufferSource.BufferSource` and returns the PiP renderer
+            ::ExampleRenderer
+        )
+    }
+
+    @SubscribeEvent
+    fun registerScreens(event: RegisterMenuScreensEvent) {
+        event.register(
+            MyMenu.MY_MENU,
+            ::MyContainerScreen
         )
     }
 }
