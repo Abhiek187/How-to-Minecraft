@@ -13,20 +13,19 @@ class MyScreen(title: Component): Screen(title) {
         super.init()
 
         // Add widgets and precomputed values
-        this.addRenderableWidget(
-            EditBox(
-                Minecraft.getInstance().font,
-                480,
-                480,
-                Component.translatable("gui.${HowToMinecraft.ID}.my_screen.edit_box")
-            )
+        val editBox = EditBox(
+            Minecraft.getInstance().font,
+            200,
+            50,
+            Component.translatable("gui.${HowToMinecraft.ID}.my_screen.edit_box")
         )
+        this.addRenderableWidget(editBox)
         this.addRenderableWidget(
             Button
                 .builder(Component.translatable("gui.${HowToMinecraft.ID}.my_screen.button")) {
-                    println("Button pressed")
+                    println("You typed: ${editBox.value}")
                 }
-                .bounds(300, 300, 300, 100)
+                .bounds(100, 100, 50, 20)
                 .build()
         )
     }

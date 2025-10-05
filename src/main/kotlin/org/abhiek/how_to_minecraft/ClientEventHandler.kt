@@ -36,6 +36,10 @@ object ClientEventHandler {
     fun onClick(event: InputEvent.InteractionKeyMappingTriggered) {
         println("Click event!")
         val minecraft = Minecraft.getInstance()
+        // TODO: register as a key mapping instead
+//        minecraft.setScreen(
+//            MyScreen(Component.translatable("gui.${HowToMinecraft.ID}.my_screen.title"))
+//        )
 
         println("Hit result Type: ${minecraft.hitResult?.type}, Location: ${minecraft.hitResult?.location}")
         println("Hand: ${event.hand}")

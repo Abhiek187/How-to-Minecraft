@@ -10,6 +10,10 @@ import org.abhiek.how_to_minecraft.HowToMinecraft
 
 class MyContainerScreen(menu: MyMenu, playerInventory: Inventory, title: Component)
     : AbstractContainerScreen<MyMenu>(menu, playerInventory, title) {
+    private val label = Component.translatable("gui.${HowToMinecraft.ID}.my_container_screen.label")
+    private val labelX = 20
+    private val labelY = 20
+
     init {
         this.titleLabelX = 10
         this.inventoryLabelX = 10
@@ -53,15 +57,13 @@ class MyContainerScreen(menu: MyMenu, playerInventory: Inventory, title: Compone
     override fun renderLabels(graphics: GuiGraphics, mouseX: Int, mouseY: Int) {
         super.renderLabels(graphics, mouseX, mouseY)
 
-        // Assume we have some Component 'label'
-        // 'label' is drawn at 'labelX' and 'labelY'
         // The color is an ARGB value
         // The final boolean renders the drop shadow when true
         graphics.drawString(
             this.font,
-            this.title,
-            this.titleLabelX,
-            this.titleLabelY,
+            this.label,
+            this.labelX,
+            this.labelY,
             0xFF404040.toInt(),
             false
         )
