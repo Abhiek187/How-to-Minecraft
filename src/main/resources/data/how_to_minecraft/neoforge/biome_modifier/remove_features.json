@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:remove_features",
+  "biomes": ["minecraft:plains", "minecraft:badlands"],
+  "features": "minecraft:ice_spike",
+  "steps": ["underground_ores", "underground_decoration"]
+}

@@ -1,0 +1,5 @@
+{
+  "type": "neoforge:remove_spawns",
+  "biomes": ["minecraft:plains", "minecraft:badlands"],
+  "entity_types": ["minecraft:ghast", "minecraft:skeleton"]
+}

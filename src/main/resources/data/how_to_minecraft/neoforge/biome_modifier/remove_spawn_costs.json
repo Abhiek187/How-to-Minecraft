@@ -1,0 +1,5 @@
+{
+  "type": "neoforge:remove_spawn_costs",
+  "biomes": ["minecraft:plains", "minecraft:badlands"],
+  "entity_types": "#minecraft:skeletons"
+}

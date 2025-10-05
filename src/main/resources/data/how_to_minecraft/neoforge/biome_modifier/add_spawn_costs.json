@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_spawn_costs",
+  "biomes": ["minecraft:plains", "minecraft:badlands"],
+  "entity_types": "#minecraft:skeletons",
+  "spawn_cost": {
+    "energy_budget": 1.0,
+    "charge": 0.1
+  }
+}
