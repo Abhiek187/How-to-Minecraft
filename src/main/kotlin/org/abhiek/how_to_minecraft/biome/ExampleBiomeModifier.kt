@@ -38,8 +38,14 @@ data class ExampleBiomeModifier(val biomes: HolderSet<Biome>, val value: Int): B
         builder: ModifiableBiomeInfo.BiomeInfo.Builder
     ) {
         // Pick the phase that best matches what your want to modify
-        if (phase == BiomeModifier.Phase.MODIFY) {
+        println("Biome modifier: ${biome.value()}")
+        when (phase) {
             // Modify the 'builder', checking any information about the biome itself
+            BiomeModifier.Phase.BEFORE_EVERYTHING -> println("Phase: BEFORE_EVERYTHING")
+            BiomeModifier.Phase.ADD -> println("Phase: ADD")
+            BiomeModifier.Phase.REMOVE -> println("Phase: REMOVE")
+            BiomeModifier.Phase.MODIFY -> println("Phase: MODIFY")
+            BiomeModifier.Phase.AFTER_EVERYTHING -> println("Phase: AFTER_EVERYTHING")
         }
     }
 
