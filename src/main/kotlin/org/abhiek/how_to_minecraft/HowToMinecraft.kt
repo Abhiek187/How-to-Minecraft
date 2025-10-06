@@ -1,6 +1,9 @@
 package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.flag.FeatureFlag
+import net.minecraft.world.flag.FeatureFlags
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
@@ -37,6 +40,10 @@ object HowToMinecraft {
 
     // the logger for our mod
     val LOGGER: Logger = LogManager.getLogger(ID)
+    // Look up the 'how_to_minecraft:experimental' Feature flag
+    val EXPERIMENTAL: FeatureFlag = FeatureFlags.REGISTRY.getFlag(
+        ResourceLocation.fromNamespaceAndPath(ID, "experimental")
+    )
 
     init {
         LOGGER.info("Hello world!")

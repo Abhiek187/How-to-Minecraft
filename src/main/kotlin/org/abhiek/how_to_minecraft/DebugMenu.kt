@@ -3,6 +3,7 @@ package org.abhiek.how_to_minecraft
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.flag.FeatureFlagSet
 import net.minecraft.world.level.LightLayer
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
@@ -73,6 +74,11 @@ fun debugMenu(logger: Logger, player: Player) {
         logger.debug("Targeted Entity")
         logger.debug(entityName)
     }
+
+    // Bonus
+    val enabledFeatures = level.enabledFeatures()
+    val requiredFeatures = FeatureFlagSet.of(HowToMinecraft.EXPERIMENTAL)
+    logger.debug("Experimental feature flag enabled? {}", requiredFeatures.isSubsetOf(enabledFeatures))
 
     logger.debug("===End F3 Menu===")
 }
