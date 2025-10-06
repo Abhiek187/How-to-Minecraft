@@ -27,12 +27,15 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent
+import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.data_map.ExampleData.Companion.EXAMPLE_DATA
 import org.abhiek.how_to_minecraft.entity.ModEntities
 import org.abhiek.how_to_minecraft.item.ModItems
+import org.abhiek.how_to_minecraft.network.MyConfigurationTask
+import org.abhiek.how_to_minecraft.network.MyData
 import org.abhiek.how_to_minecraft.recipe.*
 
 /* Subscribe to all events at once: MOD_BUS.register(EventHandler):
@@ -284,5 +287,14 @@ object EventHandler {
 //            @Suppress("UnstableApiUsage")
 //            ServerPayloadHandler.handle(payload, context)
         }
+        registrar.configurationBidirectional(
+            MyData.TYPE,
+            MyData.STREAM_CODEC
+        ) { _, _ -> }
+    }
+
+    @SubscribeEvent // on the mod event bus
+    fun register(event: RegisterConfigurationTasksEvent) {
+        event.register(MyConfigurationTask(event.listener))
     }
 }

@@ -21,6 +21,8 @@ import org.abhiek.how_to_minecraft.gui.ExampleRenderState
 import org.abhiek.how_to_minecraft.gui.ExampleRenderer
 import org.abhiek.how_to_minecraft.gui.MyContainerScreen
 import org.abhiek.how_to_minecraft.gui.MyMenu
+import org.abhiek.how_to_minecraft.network.ClientPayloadHandler
+import org.abhiek.how_to_minecraft.network.MyData
 import org.abhiek.how_to_minecraft.particle.MyParticleProvider
 import org.abhiek.how_to_minecraft.particle.MyParticleTypes
 import org.abhiek.how_to_minecraft.recipe.ClientRightClickBlockRecipes
@@ -160,6 +162,10 @@ object ClientEventHandler {
         event.register(
             ClientboundRightClickBlockRecipesPayload.TYPE,
             ClientRightClickBlockRecipes::handle
+        )
+        event.register(
+            MyData.TYPE,
+            ClientPayloadHandler::handleDataOnMain
         )
     }
 
