@@ -45,9 +45,6 @@ object ExampleFunction {
         val profile = GameProfile(UUID.randomUUID(), "test_player")
         val fakePlayer = FakePlayerFactory.get(level, profile)
 
-        // Position the fake player near the block (optional but helpful)
-        fakePlayer.teleportTo(pos.x.toDouble(), (pos.y + 1).toDouble(), pos.z.toDouble())
-
         val hand = fakePlayer.usedItemHand
         val stack = Items.APPLE.defaultInstance
         fakePlayer.setItemInHand(hand, stack)
@@ -59,6 +56,14 @@ object ExampleFunction {
             pos,
             false
         )
+        println("Block position: $pos")
+        // Where the block is positioned relative to the test instance block
+        println("Block relative position: ${helper.relativePos(pos)}")
+        // Where the block is using the world's coordinates
+        println("Block absolute position: ${helper.absolutePos(pos)}")
+        println("Fake player's position: ${fakePlayer.blockPosition()}")
+        println("Fake player's relative position: ${helper.relativePos(fakePlayer.blockPosition())}")
+        println("Fake player's absolute position: ${helper.absolutePos(fakePlayer.blockPosition())}")
 
         // Simulate right-clicking the block with the apple
         val result = fakePlayer.gameMode.useItemOn(
