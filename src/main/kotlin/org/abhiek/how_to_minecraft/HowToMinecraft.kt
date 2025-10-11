@@ -22,6 +22,7 @@ import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipeDisplay
 import org.abhiek.how_to_minecraft.recipe.RightClickBlockRecipeSerializer
 import org.abhiek.how_to_minecraft.sound.MySoundsObject
 import org.abhiek.how_to_minecraft.test.ExampleEnvironmentType
+import org.abhiek.how_to_minecraft.test.ExampleFunction
 import org.abhiek.how_to_minecraft.test.ExampleTestInstance
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -67,6 +68,7 @@ object HowToMinecraft {
         MyMenu.REGISTER.register(MOD_BUS)
         MyMenuExtra.REGISTER.register(MOD_BUS)
         ExampleEnvironmentType.TEST_ENVIRONMENT_DEFINITION_TYPES.register(MOD_BUS)
+        ExampleFunction.TEST_FUNCTION.register(MOD_BUS)
         ExampleTestInstance.TEST_INSTANCE.register(MOD_BUS)
 
         runForDist(clientTarget = {

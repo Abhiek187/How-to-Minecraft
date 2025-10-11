@@ -1,6 +1,6 @@
 {
   "environment": "how_to_minecraft:game_rules_environment",
-  "structure": "how_to_minecraft:example_structure",
+  "structure": "minecraft:empty",
   "max_ticks": 400,
   "setup_ticks": 50,
   "required": true,
