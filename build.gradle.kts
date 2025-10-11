@@ -252,3 +252,8 @@ tasks.withType<Test> {
         showStandardStreams = true
     }
 }
+
+// Add the run directory to the clean task
+tasks.named("clean").configure {
+    delete(rootProject.file("run"))
+}

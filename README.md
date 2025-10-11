@@ -12,6 +12,12 @@ See [NeoForge's docs](https://docs.neoforged.net/docs/gettingstarted/) for more 
 gradlew build
 ```
 
+**Clean**
+
+```bash
+gradlew clean
+```
+
 **Generate Data**
 
 ```bash
