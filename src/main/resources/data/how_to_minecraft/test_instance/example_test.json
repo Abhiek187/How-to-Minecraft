@@ -1,0 +1,14 @@
+{
+  "environment": "how_to_minecraft:game_rules_environment",
+  "structure": "how_to_minecraft:example_structure",
+  "max_ticks": 400,
+  "setup_ticks": 50,
+  "required": true,
+  "rotation": "clockwise_90",
+  "manual_only": true,
+  "max_attempts": 3,
+  "required_successes": 1,
+  "sky_access": false,
+  "type": "minecraft:function",
+  "function": "how_to_minecraft:example_function"
+}

@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:function",
+  "setup": "how_to_minecraft:example/setup",
+  "teardown": "how_to_minecraft:example/teardown"
+}
