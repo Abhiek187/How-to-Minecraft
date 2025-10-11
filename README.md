@@ -30,6 +30,12 @@ gradlew runClient
 gradlew runServer
 ```
 
+**Run Unit Tests**
+
+```bash
+gradlew test
+```
+
 **Run Game Test Server**
 
 ```bash
