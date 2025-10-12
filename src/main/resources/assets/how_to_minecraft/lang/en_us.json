@@ -21,5 +21,8 @@
   "item.how_to_minecraft.my_mob_spawn_egg": "My Mob Spawn Egg",
   "entity.how_to_minecraft.my_entity": "My Entity",
   "entity.how_to_minecraft.my_mob": "Hi Mob!",
-  "menu.title.how_to_minecraft.my_menu": "My Menu"
+  "menu.title.how_to_minecraft.my_menu": "My Menu",
+  "key.how_to_minecraft.example1": "P",
+  "key.how_to_minecraft.example2": "Left click",
+  "key.how_to_minecraft.example3": "Shift-G"
 }

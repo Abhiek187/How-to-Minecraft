@@ -2,6 +2,7 @@ package org.abhiek.how_to_minecraft
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.player.PlayerRenderer
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.context.ContextKey
 import net.neoforged.api.distmarker.Dist
@@ -17,10 +18,7 @@ import org.abhiek.how_to_minecraft.entity.MyMobModel
 import org.abhiek.how_to_minecraft.entity.MyMobModel.Companion.MY_LAYER
 import org.abhiek.how_to_minecraft.entity.MyMobRenderer
 import org.abhiek.how_to_minecraft.entity.MyRenderLayer
-import org.abhiek.how_to_minecraft.gui.ExampleRenderState
-import org.abhiek.how_to_minecraft.gui.ExampleRenderer
-import org.abhiek.how_to_minecraft.gui.MyContainerScreen
-import org.abhiek.how_to_minecraft.gui.MyMenu
+import org.abhiek.how_to_minecraft.gui.*
 import org.abhiek.how_to_minecraft.network.ClientPayloadHandler
 import org.abhiek.how_to_minecraft.network.MyData
 import org.abhiek.how_to_minecraft.particle.MyParticleProvider
@@ -38,10 +36,6 @@ object ClientEventHandler {
     fun onClick(event: InputEvent.InteractionKeyMappingTriggered) {
         println("Click event!")
         val minecraft = Minecraft.getInstance()
-        // TODO: register as a key mapping instead
-//        minecraft.setScreen(
-//            MyScreen(Component.translatable("gui.${HowToMinecraft.ID}.my_screen.title"))
-//        )
 
         println("Hit result Type: ${minecraft.hitResult?.type}, Location: ${minecraft.hitResult?.location}")
         println("Hand: ${event.hand}")
@@ -185,5 +179,33 @@ object ClientEventHandler {
             MyMenu.MY_MENU,
             ::MyContainerScreen
         )
+    }
+
+    @SubscribeEvent
+    fun registerBindings(event: RegisterKeyMappingsEvent) {
+        event.register(MyScreen.EXAMPLE_MAPPING.value)
+        event.register(MyScreen.EXAMPLE_MAPPING_2.value)
+        event.register(MyScreen.EXAMPLE_MAPPING_3.value)
+    }
+
+    @SubscribeEvent
+    fun onClientTick(event: ClientTickEvent.Post) {
+        // Preferred over InputEvent for continuous key presses
+        val minecraft = Minecraft.getInstance()
+
+        while (MyScreen.EXAMPLE_MAPPING.value.consumeClick()) {
+            // Execute logic to perform on click here
+            println("[ClientTickEvent] Pressed the P key")
+        }
+        while (MyScreen.EXAMPLE_MAPPING_2.value.consumeClick()) {
+            println("[ClientTickEvent] Clicked on a screen")
+        }
+        while (MyScreen.EXAMPLE_MAPPING_3.value.consumeClick()) {
+            println("[ClientTickEvent] Pressed Shift-G")
+
+            minecraft.setScreen(
+                MyScreen(Component.translatable("gui.${HowToMinecraft.ID}.my_screen.title"))
+            )
+        }
     }
 }
