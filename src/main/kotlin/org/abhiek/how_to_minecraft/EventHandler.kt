@@ -15,6 +15,8 @@ import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeType
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.ModList
+import net.neoforged.fml.VersionChecker
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.common.damagesource.DamageContainer
 import net.neoforged.neoforge.data.event.GatherDataEvent
@@ -30,6 +32,7 @@ import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent
 import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
+import org.abhiek.how_to_minecraft.HowToMinecraft.LOGGER
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.data_map.ExampleData.Companion.EXAMPLE_DATA
 import org.abhiek.how_to_minecraft.entity.ModEntities
@@ -99,6 +102,14 @@ object EventHandler {
         println("${craftingRecipes.size} crafting recipes")
         val smeltingRecipes = recipes.recipeMap().byType(RecipeType.SMELTING)
         println("${smeltingRecipes.size} smelting recipes")
+
+        val mods = ModList.get().mods
+        for (modInfo in mods) {
+            val id = modInfo.modId
+            val versionCheckResult = VersionChecker.getResult(modInfo)
+            VersionChecker.startVersionCheck()
+            LOGGER.info("Version check result for mod $id: $versionCheckResult")
+        }
     }
 
     @SubscribeEvent

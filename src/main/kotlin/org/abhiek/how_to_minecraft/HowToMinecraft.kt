@@ -82,7 +82,7 @@ object HowToMinecraft {
 
         // Every block in Minecraft
 //        for (entry in BuiltInRegistries.BLOCK.entrySet()) {
-//            println("Block key: ${entry.key}, value: ${entry.value}")
+//            LOGGER.info("Block key: ${entry.key}, value: ${entry.value}")
 //        }
 
         /**
@@ -100,8 +100,8 @@ object HowToMinecraft {
         val isPhysicalServer = DIST.isDedicatedServer // or FMLEnvironment.dist == Dist.DEDICATED_SERVER
 //        val logicalClient = LogicalSide.CLIENT
 //        val logicalServer = LogicalSide.SERVER
-        println("is physical client? $isPhysicalClient")
-        println("is physical server? $isPhysicalServer")
+        LOGGER.info("is physical client? $isPhysicalClient")
+        LOGGER.info("is physical server? $isPhysicalServer")
     }
 
     /**
