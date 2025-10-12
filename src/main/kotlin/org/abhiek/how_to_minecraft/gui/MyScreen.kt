@@ -2,10 +2,10 @@ package org.abhiek.how_to_minecraft.gui
 
 import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.EditBox
+import net.minecraft.client.gui.components.MultiLineTextWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.neoforged.neoforge.client.settings.KeyConflictContext
@@ -19,16 +19,23 @@ class MyScreen(title: Component): Screen(title) {
 
         // Add widgets and precomputed values
         val editBox = EditBox(
-            Minecraft.getInstance().font,
+            font,
             200,
             50,
             Component.translatable("gui.${HowToMinecraft.ID}.my_screen.edit_box")
         )
         this.addRenderableWidget(editBox)
+        val textWidget = MultiLineTextWidget(
+            10,
+            60,
+            Component.literal("Whatever you type will appear here!"),
+            font
+        )
+        this.addRenderableWidget(textWidget)
         this.addRenderableWidget(
             Button
                 .builder(Component.translatable("gui.${HowToMinecraft.ID}.my_screen.button")) {
-                    println("You typed: ${editBox.value}")
+                    textWidget.message = Component.literal("You typed: ${editBox.value}")
                 }
                 .bounds(100, 100, 50, 20)
                 .build()
@@ -94,7 +101,7 @@ class MyScreen(title: Component): Screen(title) {
         if (EXAMPLE_MAPPING_2.value.isActiveAndMatches(mouseKey)) {
             // Execute logic to perform on mouse click here
             println("Clicked on MyScreen")
-            return true
+            // return true // overwrites other click events
         }
         return super.mouseClicked(x, y, button)
     }
