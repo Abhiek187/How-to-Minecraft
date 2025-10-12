@@ -32,7 +32,6 @@ import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent
 import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
-import org.abhiek.how_to_minecraft.HowToMinecraft.LOGGER
 import org.abhiek.how_to_minecraft.block.ModBlocks
 import org.abhiek.how_to_minecraft.data_map.ExampleData.Companion.EXAMPLE_DATA
 import org.abhiek.how_to_minecraft.entity.ModEntities
@@ -107,8 +106,7 @@ object EventHandler {
         for (modInfo in mods) {
             val id = modInfo.modId
             val versionCheckResult = VersionChecker.getResult(modInfo)
-            VersionChecker.startVersionCheck()
-            LOGGER.info("Version check result for mod $id: $versionCheckResult")
+            println("Version check result for mod $id: $versionCheckResult")
         }
     }
 
