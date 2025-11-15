@@ -129,7 +129,7 @@ object EventHandler {
                 }
             }
         }
-        println("There are ${possibleRecipes.size} recipes that use $currentItem")
+        println("There are ${possibleRecipes.size} recipe(s) that use $currentItem")
         for (recipe in possibleRecipes) {
             val recipeOutput = recipe.assemble(
                 CraftingInput.of(

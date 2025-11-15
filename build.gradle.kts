@@ -5,7 +5,7 @@ plugins {
     `java-library`
     `maven-publish`
     idea
-    id("net.neoforged.moddev") version "2.0.107" // ModDevGradle
+    id("net.neoforged.moddev") version "2.0.116" // ModDevGradle
     kotlin("jvm") version "2.2.20"
     id("com.github.ben-manes.versions") version "0.53.0"
 }
