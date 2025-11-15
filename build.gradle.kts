@@ -158,7 +158,7 @@ dependencies {
     // Dependency chart: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs/edit?usp=sharing
     implementation("thedarkcolour:kotlinforforge-neoforge:5.10.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Example mod dependency with JEI

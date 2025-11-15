@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.CraftingInput
 import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeType
+import net.minecraft.world.item.crafting.ShapedRecipe
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModList
@@ -39,6 +40,7 @@ import org.abhiek.how_to_minecraft.item.ModItems
 import org.abhiek.how_to_minecraft.network.MyConfigurationTask
 import org.abhiek.how_to_minecraft.network.MyData
 import org.abhiek.how_to_minecraft.recipe.*
+import kotlin.jvm.optionals.getOrNull
 
 /* Subscribe to all events at once: MOD_BUS.register(EventHandler):
  * https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.21.x-neoforge/net/neoforged/neoforge/event/package-summary.html
@@ -101,6 +103,44 @@ object EventHandler {
         println("${craftingRecipes.size} crafting recipes")
         val smeltingRecipes = recipes.recipeMap().byType(RecipeType.SMELTING)
         println("${smeltingRecipes.size} smelting recipes")
+        val smokingRecipes = recipes.recipeMap().byType(RecipeType.SMOKING)
+        println("${smokingRecipes.size} smoking recipes")
+        val blastingRecipes = recipes.recipeMap().byType(RecipeType.BLASTING)
+        println("${blastingRecipes.size} blasting recipes")
+        val smithingRecipes = recipes.recipeMap().byType(RecipeType.SMITHING)
+        println("${smithingRecipes.size} smithing recipes")
+        val campfireCookingRecipes = recipes.recipeMap().byType(RecipeType.CAMPFIRE_COOKING)
+        println("${campfireCookingRecipes.size} campfire cooking recipes")
+        val stonecuttingRecipes = recipes.recipeMap().byType(RecipeType.STONECUTTING)
+        println("${stonecuttingRecipes.size} stonecutting recipes")
+
+        // Get all recipes that can be made using the item currently held
+        val currentItem = entity.mainHandItem
+        val possibleRecipes = mutableListOf<ShapedRecipe>()
+        for (recipeHolder in craftingRecipes) {
+            val recipe = recipeHolder.value
+            if (recipe !is ShapedRecipe) continue
+
+            val ingredients = recipe.ingredients
+            ingredients.forEach { maybeIngredient ->
+                val ingredient = maybeIngredient.getOrNull()
+                if (ingredient?.test(currentItem) == true) {
+                    possibleRecipes.add(recipe)
+                }
+            }
+        }
+        println("There are ${possibleRecipes.size} recipes that use $currentItem")
+        for (recipe in possibleRecipes) {
+            val recipeOutput = recipe.assemble(
+                CraftingInput.of(
+                    recipe.width,
+                    recipe.height,
+                    List(recipe.width * recipe.height) { ItemStack.EMPTY }
+                ),
+                serverLevel.registryAccess()
+            )
+            println(recipeOutput)
+        }
 
         val mods = ModList.get().mods
         for (modInfo in mods) {
